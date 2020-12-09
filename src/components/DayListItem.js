@@ -14,7 +14,7 @@ const formatSpots = function(spots) {
 
 export default function DayListItem(props) {
   
-  const { id, name, spots, setDay, selected } = props;
+  const { id, name, spots, onChange, selected } = props;
   const liClass = classNames('day-list__item', {
     'day-list__item--selected': selected,
     'day-list__item--full': !spots
@@ -22,7 +22,7 @@ export default function DayListItem(props) {
 
 
   return (
-    <li className={liClass} onClick={() => setDay(name)} key={id}>
+    <li className={liClass} onClick={onChange} key={id}>
       <h2 className="text--regular">{name}</h2> 
       <h3 className="text--light">{formatSpots(spots)}</h3>
     </li>
