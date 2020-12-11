@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 import "components/Application.scss";
 import DayList from "components/DayList";
@@ -17,6 +17,7 @@ export default function Application(props) {
     interviewers: {},
   });
   let dailyAppointments = getAppointmentsForDay(state, state.day);
+  let dailyInterviewers = getInterviewersForDay(state, state.day);
 
   const setDay = (day) => setState(prev => ({...prev, day }))
 
@@ -60,8 +61,8 @@ export default function Application(props) {
       <section className="schedule">
         
         { dailyAppointments.map(app => {
-
           app.interview = getInterview(state, app.interview);
+          app.interviewers = dailyInterviewers;
           return <Appointment key={app.id} {...app} />
 
         })}

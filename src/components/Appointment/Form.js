@@ -5,7 +5,6 @@ import InterviewerList from 'components/InterviewerList';
 
 
 export default function Form(props) {
-  
   const reset = function() {
     setName('');
     setInterviewer(null);
