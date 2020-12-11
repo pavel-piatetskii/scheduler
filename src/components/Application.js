@@ -32,7 +32,7 @@ export default function Application(props) {
         interviewers: all[2].data
       }));
     })
-  },[state.day, state.appointments])
+  },[state.day])
 
   function bookInterview(id, interview) {
     const appointment = {
@@ -47,13 +47,12 @@ export default function Application(props) {
     .then(res => (res.status && res.status === 204) ? 
       setState({...state, appointments: appointments}) :
       console.log(`Error! Respond status: ${res.status}`))
-    .catch(err => console.log(err))
+    //.catch(err => console.log(err))
     
   };
 
 
   function cancelInterview(id) {
-    console.log(`${id} will be deleted`)
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -66,7 +65,7 @@ export default function Application(props) {
     .then(res => (res.status && res.status === 204) ? 
       setState({...state, appointments: appointments}) :
       console.log(`Error! Respond status: ${res.status}`))
-    .catch(err => console.log(err))
+    //.catch(err => console.log(err))
   };
 
   return (
