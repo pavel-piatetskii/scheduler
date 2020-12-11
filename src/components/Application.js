@@ -8,8 +8,7 @@ import Appointment from 'components/Appointment'
 
 
 export default function Application(props) {
-  
-  
+    
   const [state, setState] = useState({
     day: 'Monday',
     days: [],
@@ -17,7 +16,6 @@ export default function Application(props) {
     interviewers: {},
   });
   let dailyAppointments = getAppointmentsForDay(state, state.day);
-  let dailyInterviewers = getInterviewersForDay(state, state.day);
 
   const setDay = (day) => setState(prev => ({...prev, day }))
 
@@ -35,6 +33,22 @@ export default function Application(props) {
       }));
     })
   },[state.day])
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`/api/appointments/${id}`, { interview })
+    .then(res => (res.status && res.status === 204) ? 
+      setState({...state, appointments: appointments}) :
+      console.log(`Error! Respond status: ${res.status}`));
+  };
+
 
   return (
     <main className="layout">
@@ -61,9 +75,12 @@ export default function Application(props) {
       <section className="schedule">
         
         { dailyAppointments.map(app => {
-          app.interview = getInterview(state, app.interview);
-          app.interviewers = dailyInterviewers;
-          return <Appointment key={app.id} {...app} />
+          return <Appointment
+            key={app.id} {...app}
+            bookInterview={bookInterview}
+            interview = {getInterview(state, app.interview)}
+            interviewers = {getInterviewersForDay(state, state.day)}
+          />
 
         })}
         <Appointment key="last" time="5pm" />
