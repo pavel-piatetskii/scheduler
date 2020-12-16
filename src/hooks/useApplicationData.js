@@ -36,10 +36,11 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const spotChange = (state.appointments[id].interview) ? 0 : 1;
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
-        state.days[state.days.findIndex(el => el.name === state.day)].spots--;
+        state.days[state.days.findIndex(el => el.name === state.day)].spots -= spotChange;
         return setState({ ...state, appointments: appointments });
       })
 
