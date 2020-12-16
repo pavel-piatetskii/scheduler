@@ -8,7 +8,6 @@ export default function useApplicationData() {
     days: [],
     appointments: {},
     interviewers: {},
-    refresh: false
   });
 
   const setDay = (day) => setState(prev => ({ ...prev, day }))
@@ -40,7 +39,7 @@ export default function useApplicationData() {
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
-        state.refresh = !state.refresh;
+        state.days[state.days.findIndex(el => el.name === state.day)].spots--;
         return setState({ ...state, appointments: appointments });
       })
 
@@ -59,7 +58,7 @@ export default function useApplicationData() {
     
     return axios.delete(`/api/appointments/${id}`)
       .then(() => {
-        state.refresh = !state.refresh;
+        state.days[state.days.findIndex(el => el.name === state.day)].spots++;
         setState({ ...state, appointments: appointments })
       })
   };

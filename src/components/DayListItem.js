@@ -22,7 +22,7 @@ export default function DayListItem(props) {
 
 
   return (
-    <li className={liClass} onClick={onChange} key={id}>
+    <li className={liClass} onClick={onChange} key={id} data-testid="day">
       <h2 className="text--regular">{name}</h2> 
       <h3 className="text--light">{formatSpots(spots)}</h3>
     </li>
