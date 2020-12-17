@@ -3,12 +3,6 @@ import { useEffect, useReducer } from "react";
 
 
 export default function useApplicationData() {
-  // const [state, setState] = useState({
-  //   day: 'Monday',
-  //   days: [],
-  //   appointments: {},
-  //   interviewers: {},
-  // });
 
   const initialState = {
     day: 'Monday',
@@ -97,7 +91,7 @@ export default function useApplicationData() {
       .then(() => {
         const index = state.days.findIndex(el => el.name === state.day)
         const spots = state.days[index].spots + 1;
-        
+
         dispatch({ type: SET_INTERVIEW, id, interview: null })
         dispatch({ type: SET_SPOTS, spots, index })
       })

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { render, cleanup, waitForElement, fireEvent, getByText, prettyDOM, getAllByTestId, getByAltText, getByPlaceholderText, queryByText, getByDisplayValue } from "@testing-library/react";
+import { render, cleanup, waitForElement, fireEvent, getByText, getAllByTestId, getByAltText, getByPlaceholderText, queryByText, getByDisplayValue } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -9,20 +9,13 @@ afterEach(cleanup);
 
 describe("Form", () => {
 
-  // it("defaults to Monday and changes the schedule when a new day is selected", () => {
-  //   const { getByText } = render(<Application />);
-  // 
-  //   return waitForElement(() => getByText("Monday"))
-  //   .then(() => waitForElement(() => fireEvent.click(getByText("Tuesday"))))
-  //   .then(() => expect(getByText(/Leopold Silver/i)).toBeInTheDocument())
-  // });
-
   it("changes the schedule when a new day is selected", async () => {
     const { getByText } = render(<Application />);
     await waitForElement(() => getByText("Monday"));
     await waitForElement(() => fireEvent.click(getByText("Tuesday")));
     expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
+
 
   it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
     const { container } = render(<Application />);
