@@ -70,7 +70,7 @@ export default function useApplicationData() {
         interviewers: all[2].data
       })
     })
-  }, [state.day, state.refresh])
+  }, [state.day])
 
   function bookInterview(id, interview) {
     return axios.put(`/api/appointments/${id}`, { interview })
