@@ -3,7 +3,10 @@ import "components/DayListItem.scss";
 
 const classNames = require('classnames');
 
-
+/**
+* Format the text describing number of available spots as
+* no spots / 1 spot / 2 spots...
+ */
 const formatSpots = function(spots) {
 
   const spotsNum = (spots) ? spots : 'no';
@@ -12,6 +15,10 @@ const formatSpots = function(spots) {
 
 };
 
+/**
+ * Day componet for the list of days. Gets day name, available spots and
+ * function to switch between days from props
+ */
 export default function DayListItem(props) {
   
   const { id, name, spots, onChange, selected } = props;

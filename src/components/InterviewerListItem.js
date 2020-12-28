@@ -4,7 +4,10 @@ import "components/InterviewerListItem.scss";
 const classNames = require('classnames');
 
 
-
+/**
+ * Interviewer componet for the list of interviewers. Gets name, image and
+ * function to switch between interviewers from props
+ */
 export default function InterviewerListItem(props) {
 
   const { name, avatar, onChange, selected } = props;

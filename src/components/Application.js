@@ -6,9 +6,17 @@ import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from 'components/Appointment'
 
-
+/**
+ * Top-level logic which handles the list of Days and 
+ * the list of appointments for a day chosen
+ */
 export default function Application() {
 
+  /**
+   * State-handling reducer and related logic 
+   * (including switching current day, adding / deleting an appointment)
+   * are moved to a custom hook
+   */
   const {
     state,
     setDay,

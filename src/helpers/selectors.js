@@ -1,3 +1,6 @@
+/**
+ * Extract a list of appointnent for a given day
+ */
 export function getAppointmentsForDay(state, day) {
   const dayFiltered = (Array.isArray(state.days) && state.days.filter(el => el.name === day)) || [];
   if (dayFiltered.length === 0) return [];
@@ -8,7 +11,9 @@ export function getAppointmentsForDay(state, day) {
   return appsForDay.map(el => state.appointments[el]);
 }
 
-
+/**
+ * Extract a specific interview from a state object
+ */
 export function getInterview(state, interview) {
   return (
     interview && {
@@ -17,7 +22,9 @@ export function getInterview(state, interview) {
     }) || null;
 }
 
-
+/**
+ * Extract a list of interviews for a given day
+ */
 export function getInterviewersForDay(state, day) {
   const dayFiltered = (Array.isArray(state.days) && state.days.filter(el => el.name === day)) || [];
   if (dayFiltered.length === 0) return [];

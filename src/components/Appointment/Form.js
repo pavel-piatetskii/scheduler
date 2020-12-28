@@ -3,34 +3,49 @@ import Button from 'components/Button';
 import InterviewerList from 'components/InterviewerList';
 
 
-
+/**
+ * Form where an appointment can be created or edited.
+ * Receive student name (name) and interviewer name (interviewer)
+ * as props only if an appointment for a given timeslot exists.
+ * @param {*} props 
+ */
 export default function Form(props) {
-  const reset = function() {
-    setName('');
-    setInterviewer(null);
-  }
 
-  const cancel = function() {
-    reset();
-    props.onCancel();
-  }
-
-  function validate() {
-    if (name === "") {
-      setError("Student name cannot be blank");
-      return;
-    }
-    if (!interviewer) {
-      setError("You should choose interviewer!");
-      return;
-    }
-    setError('')
-    props.onSave(name, interviewer);
-  }
+  const { interviewers, onCancel, onSave } = props;
 
   const [name, setName] = useState(props.name || '');
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
+
+  function reset() {
+    setName('');
+    setInterviewer(null);
+  };
+
+  function cancel() {
+    reset();
+    onCancel();
+  };
+  
+
+  /**
+   * Check that a user entered a student name
+   * and chose an interviewer from the list
+   * show an appropriate error message if not
+   */
+  function validate() {
+    if (name === '') {
+      return setError('Student name cannot be blank');
+    }
+    if (!interviewer) {
+      return setError('You should choose interviewer!');
+    }
+
+    // If an error message was shown before, clean it
+    setError('');
+    onSave(name, interviewer);
+  };
+
 
   return (
     <main className="appointment__card appointment__card--create">
@@ -48,7 +63,7 @@ export default function Form(props) {
         </form>
         <section className="appointment__validation">{error}</section>
         <InterviewerList
-          interviewers={props.interviewers}
+          interviewers={interviewers}
           value={interviewer}
           onChange={setInterviewer}
         />

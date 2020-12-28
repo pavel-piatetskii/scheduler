@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
 
-
+  /**
+   * State-handling reducer and related logic 
+   * (including switching current day, adding / deleting an appointment)
+   */
 export default function useApplicationData() {
 
   const initialState = {
@@ -11,17 +14,21 @@ export default function useApplicationData() {
     interviewers: {},
   }
 
+  // Constants to be used within reducer switch...case
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
   const SET_SPOTS = "SET_SPOTS";
 
+
   function reducer(state, action) {
     switch (action.type) {
 
+      // Switch selected day in the day list
       case SET_DAY:
         return { ...state, day: action.day };
 
+      // Update state with the new data
       case SET_APPLICATION_DATA:
         return {
           ...state,
@@ -30,6 +37,7 @@ export default function useApplicationData() {
           interviewers: action.interviewers,
         };
 
+      // Update a particular interview data within state
       case SET_INTERVIEW:
         const appointment = {
           ...state.appointments[action.id],
@@ -41,6 +49,7 @@ export default function useApplicationData() {
         };
         return { ...state, appointments };
 
+      // Change number of spots available for a given day
       case SET_SPOTS:
         const day = { ...state.days[action.index], spots: action.spots }
         return {
@@ -48,6 +57,7 @@ export default function useApplicationData() {
           days: state.days.map((el, i) => (i === action.index) ? day : el)
         }
 
+      // If no constant above matched - throw error
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -55,8 +65,13 @@ export default function useApplicationData() {
     };
   };
 
+  // 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const setDay = (day) => dispatch({ type: SET_DAY, day })
+  const setDay = (day) => dispatch({ type: SET_DAY, day });
+
+  // Request data for days, appointments and interviews
+  // when other day is selected, then pass the data to reducer
+  // to update the state
   useEffect(() => {
     Promise.all([
       axios.get('/api/days'),
@@ -72,6 +87,12 @@ export default function useApplicationData() {
     })
   }, [state.day])
 
+  /**
+   * Book new interview or edit an existing one:
+   * 1. Send appointment data to the DB
+   * 2. On success set new available spots number
+   * 3. Send new interview and spots data to the reducer to update the state
+   */
   function bookInterview(id, interview) {
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(() => {
@@ -85,7 +106,12 @@ export default function useApplicationData() {
 
   };
 
-
+  /**
+   * Book new interview or edit an existing one:
+   * 1. Send request to the DB to delete the appointment
+   * 2. On success set new available spots number
+   * 3. Send new interview and spots data to the reducer to update the state
+   */
   function cancelInterview(id) {
     return axios.delete(`/api/appointments/${id}`)
       .then(() => {
