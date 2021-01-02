@@ -1,5 +1,11 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW,
+  SET_SPOTS
+} from "reducers/application"
 
 /**
  * State-handling reducer and related logic 
@@ -7,58 +13,7 @@ import { useEffect, useReducer } from "react";
  */
 export default function useApplicationData() {
 
-  // Constants to be used within reducer switch...case
-  const SET_DAY = "SET_DAY";
-  const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  const SET_INTERVIEW = "SET_INTERVIEW";
-  const SET_SPOTS = "SET_SPOTS";
-
-
-  function reducer(state, action) {
-    switch (action.type) {
-
-      // Switch selected day in the day list
-      case SET_DAY:
-        return { ...state, day: action.day };
-
-      // Update state with the new data
-      case SET_APPLICATION_DATA:
-        return {
-          ...state,
-          days: action.days,
-          appointments: action.appointments,
-          interviewers: action.interviewers,
-        };
-
-      // Update a particular interview data within state
-      case SET_INTERVIEW:
-        const appointment = {
-          ...state.appointments[action.id],
-          interview: (action.interview && { ...action.interview }) || (action.interview)
-        };
-        const appointments = {
-          ...state.appointments,
-          [action.id]: appointment
-        };
-        return { ...state, appointments };
-
-      // Change number of spots available for a given day
-      case SET_SPOTS:
-        const day = { ...state.days[action.index], spots: action.spots }
-        return {
-          ...state,
-          days: state.days.map((el, i) => (i === action.index) ? day : el)
-        }
-
-      // If no constant above matched - throw error
-      default:
-        throw new Error(
-          `Tried to reduce with unsupported action type: ${action.type}`
-        );
-    };
-  };
-
-  // 
+  // Declare a reducer usage with Monday the initial day
   const [state, dispatch] = useReducer(reducer, {
     day: 'Monday',
     days: [],
