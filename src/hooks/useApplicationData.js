@@ -1,18 +1,11 @@
 import axios from "axios";
 import { useEffect, useReducer } from "react";
 
-  /**
-   * State-handling reducer and related logic 
-   * (including switching current day, adding / deleting an appointment)
-   */
+/**
+ * State-handling reducer and related logic 
+ * (including switching current day, adding / deleting an appointment)
+ */
 export default function useApplicationData() {
-
-  const initialState = {
-    day: 'Monday',
-    days: [],
-    appointments: {},
-    interviewers: {},
-  }
 
   // Constants to be used within reducer switch...case
   const SET_DAY = "SET_DAY";
@@ -66,7 +59,12 @@ export default function useApplicationData() {
   };
 
   // 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {
+    day: 'Monday',
+    days: [],
+    appointments: {},
+    interviewers: {},
+  });
   const setDay = (day) => dispatch({ type: SET_DAY, day });
 
   // Request data for days, appointments and interviews
